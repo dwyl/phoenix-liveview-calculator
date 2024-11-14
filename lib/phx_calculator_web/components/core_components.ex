@@ -51,7 +51,7 @@ defmodule PhxCalculatorWeb.CoreComponents do
           <button class="bg-slate-300 w-14 h-14 rounded-lg"
           phx-click="button-press" phx-value-input={"6"}>6</button>
           <button class="bg-yellow-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"x"}>X</button>
+          phx-click="button-press" phx-value-input={"x"}>x</button>
         </div>
 
         <div class="flex flex-row w-full justify-between">
