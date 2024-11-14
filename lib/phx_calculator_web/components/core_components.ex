@@ -20,43 +20,59 @@ defmodule PhxCalculatorWeb.CoreComponents do
 
   @doc """
   Renders the calculator
-
   """
+  slot :inner_block, required: true
+
   def calculator(assigns) do
     ~H"""
     <div class="bg-slate-600 rounded-xl h-96 pt-4 px-4 w-80 justify-center">
       <div class="bg-green-200 rounded-lg h-14 mb-6">
-        0
+        <%=render_slot(@inner_block)%>
       </div>
 
       <div class="flex flex-col space-y-4 justify-between">
 
         <div class="flex flex-row w-full justify-between">
-          <button class="bg-slate-300 w-14 h-14 rounded-lg">1</button>
-          <button class="bg-slate-300 w-14 h-14 rounded-lg">2</button>
-          <button class="bg-slate-300 w-14 h-14 rounded-lg">3</button>
-          <button class="bg-yellow-300 w-14 h-14 rounded-lg">&divide</button>
+          <button class="bg-slate-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"1"}>1</button>
+          <button class="bg-slate-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"2"}>2</button>
+          <button class="bg-slate-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"3"}>3</button>
+          <button class="bg-yellow-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"/"}>&divide</button>
         </div>
 
         <div class="flex flex-row w-full justify-between">
-          <button class="bg-slate-300 w-14 h-14 rounded-lg">4</button>
-          <button class="bg-slate-300 w-14 h-14 rounded-lg">5</button>
-          <button class="bg-slate-300 w-14 h-14 rounded-lg">6</button>
-          <button class="bg-yellow-300 w-14 h-14 rounded-lg">X</button>
+          <button class="bg-slate-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"4"}>4</button>
+          <button class="bg-slate-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"5"}>5</button>
+          <button class="bg-slate-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"6"}>6</button>
+          <button class="bg-yellow-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"x"}>X</button>
         </div>
 
         <div class="flex flex-row w-full justify-between">
-          <button class="bg-slate-300 w-14 h-14 rounded-lg">7</button>
-          <button class="bg-slate-300 w-14 h-14 rounded-lg">8</button>
-          <button class="bg-slate-300 w-14 h-14 rounded-lg">9</button>
-          <button class="bg-yellow-300 w-14 h-14 rounded-lg">-</button>
+          <button class="bg-slate-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"7"}>7</button>
+          <button class="bg-slate-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"8"}>8</button>
+          <button class="bg-slate-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"9"}>9</button>
+          <button class="bg-yellow-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"-"}>-</button>
         </div>
 
         <div class="flex flex-row w-full justify-between">
-          <button class="bg-slate-300 w-14 h-14 rounded-lg">0</button>
-          <button class="bg-slate-300 w-14 h-14 rounded-lg">.</button>
+          <button class="bg-slate-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"0"}>0</button>
+          <button class="bg-slate-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"."}>.</button>
           <button class="bg-orange-300 w-14 h-14 rounded-lg">=</button>
-          <button class="bg-yellow-300 w-14 h-14 rounded-lg">+</button>
+          <button class="bg-yellow-300 w-14 h-14 rounded-lg"
+          phx-click="button-press" phx-value-input={"+"}>+</button>
         </div>
 
       </div>
