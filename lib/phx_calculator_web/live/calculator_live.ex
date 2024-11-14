@@ -18,13 +18,9 @@ alias PhxCalculatorWeb.CoreComponents
     {:noreply, socket}
   end
 
-  # def handle_event("operation", _unsigned_params, socket) do
+  def handle_event("equals", _unsigned_params, socket) do
 
-  # end
-
-  # def handle_event("equals", _unsigned_params, socket) do
-
-  # end
+  end
 
   def render(assigns) do
     ~H"""

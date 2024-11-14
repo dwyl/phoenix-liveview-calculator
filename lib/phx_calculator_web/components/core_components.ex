@@ -70,7 +70,8 @@ defmodule PhxCalculatorWeb.CoreComponents do
           phx-click="button-press" phx-value-input={"0"}>0</button>
           <button class="bg-slate-300 w-14 h-14 rounded-lg"
           phx-click="button-press" phx-value-input={"."}>.</button>
-          <button class="bg-orange-300 w-14 h-14 rounded-lg">=</button>
+          <button class="bg-orange-300 w-14 h-14 rounded-lg"
+          phx-click="equals">=</button>
           <button class="bg-yellow-300 w-14 h-14 rounded-lg"
           phx-click="button-press" phx-value-input={"+"}>+</button>
         </div>
