@@ -1,5 +1,5 @@
 defmodule PhxCalculatorWeb.Router do
-git   use PhxCalculatorWeb, :router
+  use PhxCalculatorWeb, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
