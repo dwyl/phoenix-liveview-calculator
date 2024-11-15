@@ -47,6 +47,18 @@ alias PhxCalculatorWeb.CoreComponents
     calculate(acc, rest, socket)
   end
 
+  # Need to handle case where repeated operations are added so length(calc) = 2
+  # defp calculate(acc, calc, socket) when length(calc) == 2 do
+
+  #   # split calc into lists of 3 (number *(op) number)
+  #   [op, num2 | rest] = calc
+  #   num2 = Float.parse(num2) |> elem(0)
+  #   acc = apply_operation(acc, op, num2)
+
+  #   # call recursively
+  #   calculate(acc, rest, socket)
+  # end
+
   defp calculate(acc, [], socket) do
     socket = assign(socket, current: acc)
     {:noreply, socket}
