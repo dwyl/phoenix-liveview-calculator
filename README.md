@@ -1,18 +1,15 @@
 # PhxCalculator
 
-To start your Phoenix server:
+## WORK IN PROGRESS
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+This Phoenix LiveView project is being created with the aim of putting into 
+practice the theory and knowledge gained from the many 
+open source tutorials provided by the wonderful
+[dwyl](https://github.com/dwyl).
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+This readme will include a breakdown for anyone 
+else starting their functional programming / elixir 
+journey in the hopes that this will be another 
+useful resource on that quest.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+Test
