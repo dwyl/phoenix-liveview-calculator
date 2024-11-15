@@ -25,9 +25,38 @@ alias PhxCalculatorWeb.CoreComponents
     {:noreply, socket}
   end
 
+  # buggy and not finished
   def handle_event("equals", _unsigned_params, socket) do
-
+    calc = socket.assigns.calc ++ [socket.assigns.current]
+    current = ""
+    socket = assign(socket, calc: calc, current: current) |> dbg()
+    {:noreply, socket}
+    calculate(0, socket.assigns.calc, socket)
   end
+
+  # pass accumulator value and the to-be calculated values
+  defp calculate(_acc, calc, socket) when length(calc) > 0 do
+
+    # split calc into lists of 3 (number *(op) number)
+    [num1, op, num2 | rest] = calc
+    num1 = Float.parse(num1) |> elem(0)
+    num2 = Float.parse(num2) |> elem(0)
+    acc = apply_operation(num1, op, num2)
+
+    # call recursively
+    calculate(acc, rest, socket)
+  end
+
+  defp calculate(acc, [], socket) do
+    socket = assign(socket, current: acc)
+    {:noreply, socket}
+  end
+
+  # helper functions
+  defp apply_operation(num1, "+", num2), do: num1 + num2
+  defp apply_operation(num1, "-", num2), do: num1 - num2
+  defp apply_operation(num1, "x", num2), do: num1 * num2
+  defp apply_operation(num1, "/", num2), do: num1 / num2
 
   def render(assigns) do
     ~H"""
