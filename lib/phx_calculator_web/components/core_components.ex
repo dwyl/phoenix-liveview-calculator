@@ -34,46 +34,58 @@ defmodule PhxCalculatorWeb.CoreComponents do
 
         <div class="flex flex-row w-full justify-between">
           <button class="bg-slate-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"1"}>1</button>
+          phx-click="number" phx-value-number={"1"}>1</button>
+
           <button class="bg-slate-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"2"}>2</button>
+          phx-click="number" phx-value-number={"2"}>2</button>
+
           <button class="bg-slate-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"3"}>3</button>
+          phx-click="number" phx-value-number={"3"}>3</button>
+
           <button class="bg-yellow-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"/"}>&divide</button>
+          phx-click="operation" phx-value-operation={"/"}>&divide</button>
         </div>
 
         <div class="flex flex-row w-full justify-between">
           <button class="bg-slate-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"4"}>4</button>
+          phx-click="number" phx-value-number={"4"}>4</button>
+
           <button class="bg-slate-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"5"}>5</button>
+          phx-click="number" phx-value-number={"5"}>5</button>
+
           <button class="bg-slate-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"6"}>6</button>
+          phx-click="number" phx-value-number={"6"}>6</button>
+
           <button class="bg-yellow-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"x"}>x</button>
+          phx-click="operation" phx-value-operation={"x"}>x</button>
         </div>
 
         <div class="flex flex-row w-full justify-between">
           <button class="bg-slate-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"7"}>7</button>
+          phx-click="number" phx-value-number={"7"}>7</button>
+
           <button class="bg-slate-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"8"}>8</button>
+          phx-click="number" phx-value-number={"8"}>8</button>
+
           <button class="bg-slate-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"9"}>9</button>
+          phx-click="number" phx-value-number={"9"}>9</button>
+
           <button class="bg-yellow-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"-"}>-</button>
+          phx-click="operation" phx-value-operation={"-"}>-</button>
         </div>
 
         <div class="flex flex-row w-full justify-between">
           <button class="bg-slate-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"0"}>0</button>
+          phx-click="number" phx-value-number={"0"}>0</button>
+
           <button class="bg-slate-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"."}>.</button>
+          phx-click="number" phx-value-number={"."}>.</button>
+
           <button class="bg-orange-300 w-14 h-14 rounded-lg"
           phx-click="equals">=</button>
+
           <button class="bg-yellow-300 w-14 h-14 rounded-lg"
-          phx-click="button-press" phx-value-input={"+"}>+</button>
+          phx-click="operation" phx-value-operation={"+"}>+</button>
         </div>
 
       </div>
@@ -243,15 +255,15 @@ defmodule PhxCalculatorWeb.CoreComponents do
   ## Examples
 
       <.simple_form for={@form} phx-change="validate" phx-submit="save">
-        <.input field={@form[:email]} label="Email"/>
-        <.input field={@form[:username]} label="Username" />
+        <.number field={@form[:email]} label="Email"/>
+        <.number field={@form[:username]} label="Username" />
         <:actions>
           <.button>Save</.button>
         </:actions>
       </.simple_form>
   """
   attr :for, :any, required: true, doc: "the data structure for the form"
-  attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"
+  attr :as, :any, default: nil, doc: "the server side parameter to collect all number under"
 
   attr :rest, :global,
     include: ~w(autocomplete name rel action enctype method novalidate target multipart),
@@ -304,30 +316,30 @@ defmodule PhxCalculatorWeb.CoreComponents do
   end
 
   @doc """
-  Renders an input with label and error messages.
+  Renders an number with label and error messages.
 
   A `Phoenix.HTML.FormField` may be passed as argument,
-  which is used to retrieve the input name, id, and values.
+  which is used to retrieve the number name, id, and values.
   Otherwise all attributes may be passed explicitly.
 
   ## Types
 
-  This function accepts all HTML input types, considering that:
+  This function accepts all HTML number types, considering that:
 
     * You may also set `type="select"` to render a `<select>` tag
 
     * `type="checkbox"` is used exclusively to render boolean values
 
-    * For live file uploads, see `Phoenix.Component.live_file_input/1`
+    * For live file uploads, see `Phoenix.Component.live_file_number/1`
 
-  See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+  See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/number
   for more information. Unsupported types, such as hidden and radio,
   are best written directly in your templates.
 
   ## Examples
 
-      <.input field={@form[:email]} type="email" />
-      <.input name="my-input" errors={["oh no!"]} />
+      <.number field={@form[:email]} type="email" />
+      <.number name="my-number" errors={["oh no!"]} />
   """
   attr :id, :any, default: nil
   attr :name, :any
@@ -343,27 +355,27 @@ defmodule PhxCalculatorWeb.CoreComponents do
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :errors, :list, default: []
-  attr :checked, :boolean, doc: "the checked flag for checkbox inputs"
-  attr :prompt, :string, default: nil, doc: "the prompt for select inputs"
+  attr :checked, :boolean, doc: "the checked flag for checkbox numbers"
+  attr :prompt, :string, default: nil, doc: "the prompt for select numbers"
   attr :options, :list, doc: "the options to pass to Phoenix.HTML.Form.options_for_select/2"
-  attr :multiple, :boolean, default: false, doc: "the multiple flag for select inputs"
+  attr :multiple, :boolean, default: false, doc: "the multiple flag for select numbers"
 
   attr :rest, :global,
     include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
                 multiple pattern placeholder readonly required rows size step)
 
-  def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
-    errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
+  def number(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+    errors = if Phoenix.Component.used_number?(field), do: field.errors, else: []
 
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign_new(:name, fn -> if assigns.multiple, do: field.name <> "[]", else: field.name end)
     |> assign_new(:value, fn -> field.value end)
-    |> input()
+    |> number()
   end
 
-  def input(%{type: "checkbox"} = assigns) do
+  def number(%{type: "checkbox"} = assigns) do
     assigns =
       assign_new(assigns, :checked, fn ->
         Phoenix.HTML.Form.normalize_value("checkbox", assigns[:value])
@@ -372,8 +384,8 @@ defmodule PhxCalculatorWeb.CoreComponents do
     ~H"""
     <div>
       <label class="flex items-center gap-4 text-sm leading-6 text-zinc-600">
-        <input type="hidden" name={@name} value="false" disabled={@rest[:disabled]} />
-        <input
+        <number type="hidden" name={@name} value="false" disabled={@rest[:disabled]} />
+        <number
           type="checkbox"
           id={@id}
           name={@name}
@@ -389,7 +401,7 @@ defmodule PhxCalculatorWeb.CoreComponents do
     """
   end
 
-  def input(%{type: "select"} = assigns) do
+  def number(%{type: "select"} = assigns) do
     ~H"""
     <div>
       <.label for={@id}><%= @label %></.label>
@@ -408,7 +420,7 @@ defmodule PhxCalculatorWeb.CoreComponents do
     """
   end
 
-  def input(%{type: "textarea"} = assigns) do
+  def number(%{type: "textarea"} = assigns) do
     ~H"""
     <div>
       <.label for={@id}><%= @label %></.label>
@@ -427,12 +439,12 @@ defmodule PhxCalculatorWeb.CoreComponents do
     """
   end
 
-  # All other inputs text, datetime-local, url, password, etc. are handled here...
-  def input(assigns) do
+  # All other numbers text, datetime-local, url, password, etc. are handled here...
+  def number(assigns) do
     ~H"""
     <div>
       <.label for={@id}><%= @label %></.label>
-      <input
+      <number
         type={@type}
         name={@name}
         id={@id}

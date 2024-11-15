@@ -4,17 +4,24 @@ alias PhxCalculatorWeb.CoreComponents
   import CoreComponents
 
   def mount(_params, _session, socket) do
-    socket = assign(socket, calc: "0")
+    socket = assign(socket, calc: [], current: "0") |> dbg()
     {:ok, socket}
   end
 
-  def handle_event("button-press", %{"input" => input}, socket) do
-    calc =
-    case socket.assigns.calc do
+  def handle_event("number", %{"number" => number}, socket) do
+    current =
+    case socket.assigns.current do
       "0" -> ""
-      _ -> socket.assigns.calc
+      _ -> socket.assigns.current
     end
-    socket = assign(socket, calc: calc <> input)
+    socket = assign(socket, current: current <> number) |> dbg()
+    {:noreply, socket}
+  end
+
+  def handle_event("operation", %{"operation" => operation}, socket) do
+    calc = socket.assigns.calc ++ [socket.assigns.current, operation]
+    current = ""
+    socket = assign(socket, calc: calc, current: current) |> dbg()
     {:noreply, socket}
   end
 
@@ -25,7 +32,7 @@ alias PhxCalculatorWeb.CoreComponents
   def render(assigns) do
     ~H"""
     <h1>Calculator </h1>
-    <.calculator><%= @calc %></.calculator>
+    <.calculator><%= @current %></.calculator>
     """
   end
 end
