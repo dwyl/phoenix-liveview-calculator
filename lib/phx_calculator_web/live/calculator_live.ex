@@ -4,20 +4,37 @@ alias PhxCalculatorWeb.CoreComponents
   import CoreComponents
 
   def mount(_params, _session, socket) do
-    socket = assign(socket, calc: "", history: "")
+    socket = assign(socket, calc: "", mode: "empty", history: "")
     {:ok, socket}
   end
 
   def handle_event("number", %{"number" => number}, socket) do
-    calc = socket.assigns.calc <> number
-    socket = assign(socket, calc: calc)
-    {:noreply, socket}
+    case socket.assigns.mode do
+      "display" ->
+        calc = number
+        socket = assign(socket, calc: calc, mode: "number")
+        {:noreply, socket}
+
+      _ ->
+        calc = socket.assigns.calc <> number
+        socket = assign(socket, calc: calc, mode: "number")
+        {:noreply, socket}
+    end
   end
 
   def handle_event("operator", %{"operator" => operation}, socket) do
-    calc = socket.assigns.calc <> operation
-    socket = assign(socket, calc: calc)
-    {:noreply, socket}
+    case socket.assigns.mode do
+      "number" ->
+        calc = socket.assigns.calc <> operation
+        socket = assign(socket, calc: calc, mode: "operator")
+        {:noreply, socket}
+
+      "operator" ->
+        backspace(socket, operation)
+
+      _ ->
+        {:noreply, socket}
+    end
   end
 
   def handle_event("clear", _unsigned_params, socket) do
@@ -26,13 +43,29 @@ alias PhxCalculatorWeb.CoreComponents
   end
 
   def handle_event("backspace", _unsigned_params, socket) do
-    calc = String.slice(socket.assigns.calc, 0..-2//1)
-    socket = assign(socket, calc: calc)
-    {:noreply, socket}
+    case socket.assigns.mode do
+      "display" ->
+        {:noreply, socket}
+
+      _ ->
+        backspace(socket)
+    end
   end
 
   def handle_event("equals", _unsigned_params, socket) do
-    calc = Abacus.eval(socket.assigns.calc) |> elem(1)
+    case socket.assigns.mode do
+      "number" ->
+        calc = Abacus.eval(socket.assigns.calc) |> elem(1)
+        socket = assign(socket, calc: calc, mode: "display")
+        {:noreply, socket}
+
+      _ ->
+        {:noreply, socket}
+    end
+  end
+
+  defp backspace(socket, operation \\ "") do
+    calc = String.slice(socket.assigns.calc, 0..-2//1) <> operation
     socket = assign(socket, calc: calc)
     {:noreply, socket}
   end

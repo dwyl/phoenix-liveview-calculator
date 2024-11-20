@@ -35,11 +35,11 @@ defmodule PhxCalculatorWeb.CoreComponents do
 
           <div class="grid grid-cols-4 gap-1 m-2">
             <button class="bg-gray-700 text-blue-400 h-16 font-mono text-3xl
-            rounded-lg" phx-click="operator" phx-value-operator="(">(</button>
+            rounded-lg" phx-click="number" phx-value-number="(">(</button>
 
 
             <button class="bg-gray-700 text-blue-400 h-16 font-mono text-3xl
-            rounded-lg" phx-click="operator" phx-value-operator=")">)</button>
+            rounded-lg" phx-click="number" phx-value-number=")">)</button>
 
             <button class="bg-gray-700 text-blue-400 h-16 font-mono text-3xl
             rounded-lg" phx-click="backspace">&larr;</button>
