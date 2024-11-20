@@ -42,7 +42,7 @@ defmodule PhxCalculatorWeb.CoreComponents do
             rounded-lg" phx-click="operator" phx-value-operator=")">)</button>
 
             <button class="bg-gray-700 text-blue-400 h-16 font-mono text-3xl
-            rounded-lg" >&larr;</button>
+            rounded-lg" phx-click="backspace">&larr;</button>
 
             <button class="bg-gray-700 text-blue-400 h-16 font-mono text-3xl
             rounded-lg" phx-click="clear">C</button>

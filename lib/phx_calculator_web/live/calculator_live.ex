@@ -25,6 +25,12 @@ alias PhxCalculatorWeb.CoreComponents
     {:noreply, socket}
   end
 
+  def handle_event("backspace", _unsigned_params, socket) do
+    calc = String.slice(socket.assigns.calc, 0..-2//1)
+    socket = assign(socket, calc: calc)
+    {:noreply, socket}
+  end
+
   def handle_event("equals", _unsigned_params, socket) do
     calc = Abacus.eval(socket.assigns.calc) |> elem(1)
     socket = assign(socket, calc: calc)
