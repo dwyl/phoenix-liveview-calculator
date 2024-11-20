@@ -26,7 +26,7 @@ defmodule PhxCalculator.MixProject do
   def application do
     [
       mod: {PhxCalculator.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :abacus]
     ]
   end
 
@@ -59,6 +59,7 @@ defmodule PhxCalculator.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
+      {:abacus, "~> 2.1.0"},
       {:excoveralls, "~> 0.15.2", only: [:test, :dev]} # tracking test coverage
     ]
   end
