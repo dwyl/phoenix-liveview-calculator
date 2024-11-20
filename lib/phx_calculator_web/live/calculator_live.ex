@@ -22,15 +22,15 @@ alias PhxCalculatorWeb.CoreComponents
     end
   end
 
-  def handle_event("operator", %{"operator" => operation}, socket) do
+  def handle_event("operator", %{"operator" => operator}, socket) do
     case socket.assigns.mode do
       "number" ->
-        calc = socket.assigns.calc <> operation
+        calc = socket.assigns.calc <> operator
         socket = assign(socket, calc: calc, mode: "operator")
         {:noreply, socket}
 
       "operator" ->
-        backspace(socket, operation)
+        backspace(socket, operator)
 
       _ ->
         {:noreply, socket}
@@ -64,8 +64,8 @@ alias PhxCalculatorWeb.CoreComponents
     end
   end
 
-  defp backspace(socket, operation \\ "") do
-    calc = String.slice(socket.assigns.calc, 0..-2//1) <> operation
+  defp backspace(socket, operator \\ "") do
+    calc = String.slice(socket.assigns.calc, 0..-2//1) <> operator
     socket = assign(socket, calc: calc)
     {:noreply, socket}
   end

@@ -79,7 +79,10 @@ defmodule PhxCalculator.MixProject do
         "tailwind phx_calculator --minify",
         "esbuild phx_calculator --minify",
         "phx.digest"
-      ]
+      ],
+      c: ["coveralls.html"],
+      s: ["phx.server"],
+      t: ["test"]
     ]
   end
 end

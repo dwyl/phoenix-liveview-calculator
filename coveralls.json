@@ -7,6 +7,12 @@
     "lib/phx_calculator/application.ex",
     "lib/phx_calculator_web.ex",
     "lib/phx_calculator_web/telemetry.ex",
-    "lib/phx_calculator_web/components/core_components.ex"
+    "lib/phx_calculator_web/components/core_components.ex",
+    "lib/phx_calculator_web/router.ex",
+    "lib/phx_calculator_web/live/page_live.ex",
+    "lib/phx_calculator_web/components/core_components.ex",
+    "lib/phx_calculator_web/controllers/error_json.ex",
+    "lib/phx_calculator_web/controllers/error_html.ex",
+    "test/"
   ]
 }
