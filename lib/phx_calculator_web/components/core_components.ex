@@ -30,7 +30,7 @@ defmodule PhxCalculatorWeb.CoreComponents do
 
           <div class="bg-gray-800 rounded-lg m-2 h-28 flex items-end
           justify-end text-white text-6xl font-mono">
-            <div class="mr-4"><%= render_slot(@inner_block) %></div>
+            <div id="screen" class="mr-4"><%= render_slot(@inner_block) %></div>
           </div>
 
           <div class="grid grid-cols-4 gap-1 m-2">
