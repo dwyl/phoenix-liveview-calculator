@@ -55,11 +55,21 @@ alias PhxCalculatorWeb.CoreComponents
   def handle_event("equals", _unsigned_params, socket) do
     case socket.assigns.mode do
       "number" ->
-        calc = Abacus.eval(socket.assigns.calc) |> elem(1)
-        socket = assign(socket, calc: calc, mode: "display")
-        {:noreply, socket}
+        calculate(socket)
 
       _ ->
+        {:noreply, socket}
+    end
+  end
+
+  defp calculate(socket) do
+    case Abacus.eval(socket.assigns.calc) do
+      {:ok, result} ->
+        socket = assign(socket, calc: result, mode: "display")
+        {:noreply, socket}
+
+      {:error, err} ->
+        socket = assign(socket, calc: "NaN", mode: "display")
         {:noreply, socket}
     end
   end

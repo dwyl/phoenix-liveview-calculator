@@ -116,17 +116,17 @@ defmodule PhxCalculatorWeb.CalculatorLiveTest do
 
   # Division block
   describe "division" do
-    # test "with 0 element", %{conn: conn} do
-    #   {:ok, view, _html} = live(conn, "/")
+    test "with 0 element", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/")
 
-    #   apply_sequence([
-    #   %{event: "number", value: "1"},
-    #   %{event: "operator", value: "/"},
-    #   %{event: "number", value: "0"}
-    #   ], view, true)
+      apply_sequence([
+      %{event: "number", value: "1"},
+      %{event: "operator", value: "/"},
+      %{event: "number", value: "0"}
+      ], view, true)
 
-    #   assert render(view) =~ "1/"
-    # end
+      assert render(view) =~ "NaN"
+    end
 
     test "with identity element", %{conn: conn} do
       {:ok, view, _html} = live(conn, "/")
@@ -153,22 +153,7 @@ defmodule PhxCalculatorWeb.CalculatorLiveTest do
     end
   end
 
-  # Block to test the rendering logic which prevents
-  # illegal statements
-  describe "rendering logic" do
-    test "number after equals", %{conn: conn} do
-      {:ok, view, _html} = live(conn, "/")
-
-      apply_sequence([
-        %{event: "number", value: "1"},
-        %{event: "operator", value: "/"},
-        %{event: "number", value: "1"}
-        ], view, true)
-        render_click(view, "number", %{number: "2"})
-
-      assert render(view) =~ "2"
-    end
-
+  describe "deletion" do
     test "backspace with number", %{conn: conn} do
       {:ok, view, _html} = live(conn, "/")
 
@@ -188,7 +173,35 @@ defmodule PhxCalculatorWeb.CalculatorLiveTest do
         ], view, true)
         render_click(view, "backspace")
 
+      # nothing should happen
       assert render(view) =~ "1.0"
+    end
+
+    test "clear", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/")
+
+      render_click(view, "number", number: "1")
+      render_click(view, "clear")
+
+      # screen should be empty
+      assert render(view) =~ ~s(<div id="screen" class="mr-4"></div>)
+    end
+  end
+
+  # Block to test the rendering logic which prevents
+  # illegal statements
+  describe "rendering logic" do
+    test "number after equals", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/")
+
+      apply_sequence([
+        %{event: "number", value: "1"},
+        %{event: "operator", value: "/"},
+        %{event: "number", value: "1"}
+        ], view, true)
+        render_click(view, "number", %{number: "2"})
+
+      assert render(view) =~ "2"
     end
 
     test "operator after operator", %{conn: conn} do
@@ -200,6 +213,7 @@ defmodule PhxCalculatorWeb.CalculatorLiveTest do
         %{event: "operator", value: "-"}
         ], view, false)
 
+      # new operator replaces old operator
       assert render(view) =~ "1-"
     end
 
@@ -213,6 +227,7 @@ defmodule PhxCalculatorWeb.CalculatorLiveTest do
         ], view, true)
         render_click(view, "operator", operator: "+")
 
+      # nothing should happen
       assert render(view) =~ "1.0"
     end
 
@@ -224,19 +239,39 @@ defmodule PhxCalculatorWeb.CalculatorLiveTest do
         %{event: "operator", value: "+"}
         ], view, true)
 
+      # nothing should happen
       assert render(view) =~ "1+"
     end
 
-    test "clear", %{conn: conn} do
+  end
+
+  describe "brackets" do
+    test "valid brackets", %{conn: conn} do
       {:ok, view, _html} = live(conn, "/")
 
-      render_click(view, "number", number: "1")
-      render_click(view, "clear")
+      apply_sequence([
+      %{event: "number", value: "6"},
+      %{event: "operator", value: "/"},
+      %{event: "number", value: "("},
+      %{event: "number", value: "3"},
+      %{event: "operator", value: "-"},
+      %{event: "number", value: "2"},
+      %{event: "number", value: ")"}
+      ], view, true)
 
-
-      assert render(view) =~ ~s(<div id="screen" class="mr-4"></div>)
+      assert render(view) =~ "6.0"
     end
+    test "invalid brackets", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/")
 
+      apply_sequence([
+      %{event: "number", value: "("},
+      %{event: "number", value: "("},
+      %{event: "number", value: ")"}
+      ], view, true)
+
+      assert render(view) =~ "NaN"
+    end
   end
 
 
