@@ -4,7 +4,7 @@ alias PhxCalculatorWeb.CoreComponents
   import CoreComponents
 
   def mount(_params, _session, socket) do
-    socket = assign(socket, calc: "", mode: "empty", history: "")
+    socket = assign(socket, calc: "", mode: "", history: "")
     {:ok, socket}
   end
 

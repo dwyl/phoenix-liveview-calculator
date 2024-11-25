@@ -23,86 +23,90 @@ defmodule PhxCalculatorWeb.CoreComponents do
   """
   def calculator(assigns) do
     ~H"""
-      <div class="flex flex-col md:flex-row items-center md:justify-center">
+      <div class="bg-gray-900 flex-1 h-full flex flex-col lg:flex-row justify-between">
 
         <!-- Calculator -->
-        <div class="bg-gray-900 w-full max-w-xl">
+        <div class="bg-gray-900 flex-1 h-full flex flex-col justify-between">
 
-          <div class="bg-gray-800 rounded-lg m-2 h-28 flex items-end
-          justify-end text-white text-6xl font-mono">
+          <!-- Screen -->
+          <div class="bg-gray-800 rounded-lg m-4 h-32 flex items-end justify-end
+          text-white text-6xl font-mono">
             <div id="screen" class="mr-4"><%= render_slot(@inner_block) %></div>
           </div>
 
-          <div class="grid grid-cols-4 gap-1 m-2">
-            <button class="bg-gray-700 text-blue-400 h-16 font-mono text-3xl
+          <div class="grid grid-cols-4 gap-1 m-2 flex-grow">
+            <button class="bg-gray-700 text-blue-400 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="number" phx-value-number="(">(</button>
 
 
-            <button class="bg-gray-700 text-blue-400 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-blue-400 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="number" phx-value-number=")">)</button>
 
-            <button class="bg-gray-700 text-blue-400 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-blue-400 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="backspace">&larr;</button>
 
-            <button class="bg-gray-700 text-blue-400 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-blue-400 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="clear">C</button>
 
 
-            <button class="bg-gray-700 text-purple-800 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="number" phx-value-number="1">1</button>
 
-            <button class="bg-gray-700 text-purple-800 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="number" phx-value-number="2">2</button>
 
-            <button class="bg-gray-700 text-purple-800 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="number" phx-value-number="3">3</button>
 
             <button class="bg-gray-700 text-blue-400 font-mono text-3xl
             rounded-lg" phx-click="operator" phx-value-operator="+">+</button>
 
 
-            <button class="bg-gray-700 text-purple-800 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="number" phx-value-number="4">4</button>
 
-            <button class="bg-gray-700 text-purple-800 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="number" phx-value-number="5">5</button>
 
-            <button class="bg-gray-700 text-purple-800 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="number" phx-value-number="6">6</button>
 
-            <button class="bg-gray-700 text-blue-400 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-blue-400 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="operator" phx-value-operator="-">-</button>
 
 
-            <button class="bg-gray-700 text-purple-800 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="number" phx-value-number="7">7</button>
 
-            <button class="bg-gray-700 text-purple-800 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="number" phx-value-number="8">8</button>
 
-            <button class="bg-gray-700 text-purple-800 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="number" phx-value-number="9">9</button>
 
-            <button class="bg-gray-700 text-blue-400 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-blue-400 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="operator" phx-value-operator="*">x</button>
 
 
-            <button class="bg-gray-700 text-purple-800 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="number" phx-value-number=".">.</button>
 
-            <button class="bg-gray-700 text-purple-800 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="number" phx-value-number="0">0</button>
 
-            <button class="bg-purple-900 text-black h-16 font-mono text-3xl
+            <button class="bg-purple-900 text-black min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="equals">=</button>
 
-            <button class="bg-gray-700 text-blue-400 h-16 font-mono text-3xl
+            <button class="bg-gray-700 text-blue-400 min-h-[4rem] font-mono text-3xl
             rounded-lg" phx-click="operator" phx-value-operator="/">&divide</button>
 
           </div>
         </div>
 
-        <div class="bg-gray-600 w-full max-w-xl mt">history</div>
+        <!-- History -->
+        <div class="bg-gray-600 flex-1 h-full p-4">
+          <div class="text-white">History</div>
+        </div>
       </div>
     """
   end
