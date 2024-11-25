@@ -60,7 +60,7 @@ defmodule PhxCalculator.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
       {:abacus, "~> 2.1.0"},
-      {:excoveralls, "~> 0.15.2", only: [:test, :dev]} # tracking test coverage
+      {:excoveralls, "~> 0.18.3", only: [:test, :dev]} # tracking test coverage
     ]
   end
 
