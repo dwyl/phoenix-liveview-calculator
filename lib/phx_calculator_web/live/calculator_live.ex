@@ -69,7 +69,7 @@ alias PhxCalculatorWeb.CoreComponents
         {:noreply, socket}
 
       {:error, err} ->
-        socket = assign(socket, calc: "NaN", mode: "display")
+        socket = assign(socket, calc: "ERROR", mode: "display")
         {:noreply, socket}
     end
   end
