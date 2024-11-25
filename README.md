@@ -322,4 +322,22 @@ as we have seen, and we either set the calc string to the result or the
 
 # Tests
 
+## File and code structure
+
+## Helper function 
+
+## Connection test
+
+## Addition
+
+## Multiplication
+
+## Subtraction
+
+## Division 
+
+## Rendering logic  
+
+## Brackets
+
 

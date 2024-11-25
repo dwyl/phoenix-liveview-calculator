@@ -23,10 +23,10 @@ defmodule PhxCalculatorWeb.CoreComponents do
   """
   def calculator(assigns) do
     ~H"""
-      <div class="bg-gray-900 flex-1 h-full flex flex-col lg:flex-row justify-between">
+      <div class="bg-gray-900 flex-1 h-screen flex flex-col lg:flex-row justify-between">
 
         <!-- Calculator -->
-        <div class="bg-gray-900 flex-1 h-full flex flex-col justify-between">
+        <div class="bg-gray-900 flex-1 h-full flex flex-col justify-between m-4">
 
           <!-- Screen -->
           <div class="bg-gray-800 rounded-lg m-4 h-32 flex items-end justify-end
@@ -104,8 +104,12 @@ defmodule PhxCalculatorWeb.CoreComponents do
         </div>
 
         <!-- History -->
-        <div class="bg-gray-600 flex-1 h-full p-4">
-          <div class="text-white">History</div>
+        <div class="bg-gray-600 flex-1 h-full p-4 rounded-lg m-4">
+          <div class="bg-gray-800 rounded-lg m-4 h-32 flex items-end justify-end
+          text-white text-6xl font-mono">
+            <div id="screen" class="mr-4">History</div>
+          </div>
+
         </div>
       </div>
     """
