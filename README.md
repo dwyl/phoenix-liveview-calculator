@@ -434,13 +434,71 @@ _four_ **render_click()** functions. Awesome!
 
 ## Connection test
 
-## Addition
+## Addition, multiplication, division, subtraction
 
-## Multiplication
+In the addition test suite, and indeed all test suites involving a calculation, 
+I have tried to not only ensure 
+[branch coverage]()
+but also to test all behaviours of the operator and test correct handling of every 
+button.
 
-## Subtraction
+To ensure this, each test suite that handles a calculation has a similar format:
 
-## Division 
+- Test the operator with the 0 element 
+- Test the operator with the 
+[identity element](https://brilliant.org/wiki/identity-element/) 
+- Test the operator with numbers consisting of every digit, e.g. 
+`1.2345 + 6.7890` 
+
+> Notice that for addition and subtraction the 0 element _is_ the identity 
+> element 
+
+The `subtraction` test suite is slightly different as we also test a 
+calculation that returns a negative result, as well as a positive one. 
+
+```elixir
+# Subtraction block
+describe "subtraction" do
+  test "with identity element", %{conn: conn} do
+    {:ok, view, _html} = live(conn, "/")
+
+    apply_sequence([
+      %{event: "number", value: "1"},
+      %{event: "operator", value: "-"},
+      %{event: "number", value: "0"}
+      ], view, true)
+
+    assert render(view) =~ ~s(<div id="screen" class="mr-4">1</div>)
+  end
+
+  test "with positive result", %{conn: conn} do
+    {:ok, view, _html} = live(conn, "/")
+
+    apply_sequence([
+      %{event: "number", value: "1.2345"},
+      %{event: "operator", value: "-"},
+      %{event: "number", value: "6.7890"}
+    ], view, true)
+
+    assert render(view) =~ "5.5545"
+  end
+
+  test "with negative result", %{conn: conn} do
+    {:ok, view, _html} = live(conn, "/")
+
+    apply_sequence([
+      %{event: "number", value: "1.2345"},
+      %{event: "operator", value: "-"},
+      %{event: "number", value: "6.7890"}
+    ], view, true)
+
+    assert render(view) =~ "-5.5545"
+  end
+end
+```
+
+## Deletion 
+
 
 ## Rendering logic  
 
