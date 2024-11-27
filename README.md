@@ -322,9 +322,115 @@ as we have seen, and we either set the calc string to the result or the
 
 # Tests
 
+In this section we will talk about the tests we used to obtain 100% test 
+coverage. Instead of examining each test with a code snippet like we did 
+with our functions, we'll examine the general test code structure, the helper 
+function used to reduce code repetition, and then speak about the test cases 
+in a more general manner. 
+
 ## File and code structure
+The [testing](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveViewTest.html)
+in this project is organized into **describe** blocks 
+containing the relevant test suite, which helps separate 
+the logic and make it more readable and easier for the developer to 
+figure out which test is failing (along with test names).
+
+```elixir
+describe "test suite name" do
+  # Your test suite
+end
+```
+The test themselves are named, and in this project we pass a `conn` instance
+which we use with 
+[`live/2`](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveViewTest.html#live/2)
+to spawn a a connected LiveView process enabling us to obtain a LiveView to
+test.
+
+> _Note: We're using Phoenix's 
+[ConnCase](https://hexdocs.pm/phoenix/1.7.12/Phoenix.ConnTest.html#module-recycling)_
+
+We test the `view` using 
+[`render_click/3`](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveViewTest.html#render_click/3)
+which sends a click event to the view with value 
+and returns the rendered result, and then we use `assert` to determine
+whether the correct value has been calculated. 
+
+```elixir
+test "clear", %{conn: conn} do
+  {:ok, view, _html} = live(conn, "/")
+
+  render_click(view, "number", number: "1")
+  render_click(view, "clear")
+
+  # screen should be empty
+  assert render(view) =~ ~s(<div id="screen" class="mr-4"></div>)
+end
+```
+
+So in this example we've simulated clicking the number `1` 
+and then the `clear` button. 
+
+We then check to see if our "screen" is empty on the calculator using 
+assert and accessing the screen via its `id`. 
+
 
 ## Helper function 
+Since this is a calculator, we'll be "pressing" a **lot** of buttons. 
+Obviously we don't want to be typing _endless_ `render_click()`'s, 
+which is where the following **helper function** comes in:
+
+```elixir
+defp apply_sequence(sequence, view, equals?) do
+  Enum.each(sequence, fn map ->
+    %{event: event, value: value} = map
+    render_click(view, event, %{event => value})
+  end)
+  if(equals?) do
+    render_click(view, "equals")
+  end
+end
+```
+
+Let's break it down:
+- We pass in three parameters
+  - `sequence`: is a list of key-value maps containing the click `event` 
+  and its corresponding value
+  - `view`: is the current LiveView of the process, the same one we create we 
+  `live(conn, "/")`
+  - `equals?`: is the boolean that determines whether we want to call the 
+  `equals` event
+
+- We loop through the `sequence` list with 
+[` Enum.each()`](https://hexdocs.pm/elixir/1.12/Enum.html#each/2)
+  - We pass `(sequence, fn map ->` to `Enum.each` which allows us to 
+  run a function on each entry (`map`) of `sequence` list
+  - Using [pattern matching](https://hexdocs.pm/elixir/pattern-matching.html)
+  we destruct the map into its components `event` and `value`
+  - Then call `render_click()` with that data
+
+- If `equals?` is `true` we also render the `equals` event after the sequence.
+
+This function allows us to increase readability and reduce repeated code.
+
+For example, look at how it's used an addition test:
+
+```elixir
+# Addition block
+test "with identity element", %{conn: conn} do
+  {:ok, view, _html} = live(conn, "/")
+
+  apply_sequence([
+  %{event: "number", value: "1"},
+  %{event: "operator", value: "+"},
+  %{event: "number", value: "0"}
+  ], view, true)
+
+  assert render(view) =~ ~s(<div id="screen" class="mr-4">1</div>)
+end
+```
+
+We can clearly read what the test is doing, and we didn't have to type
+_four_ **render_click()** functions. Awesome!
 
 ## Connection test
 

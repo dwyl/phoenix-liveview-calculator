@@ -35,3 +35,6 @@ phx_calculator-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# postgres cluster authentication
+postgres-cluster.txt
+
