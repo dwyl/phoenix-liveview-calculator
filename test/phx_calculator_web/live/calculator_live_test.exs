@@ -157,7 +157,11 @@ defmodule PhxCalculatorWeb.CalculatorLiveTest do
     test "backspace with number", %{conn: conn} do
       {:ok, view, _html} = live(conn, "/")
 
-      render_click(view, "number", %{number: "321"})
+      apply_sequence([
+        %{event: "number", value: "3"},
+        %{event: "number", value: "2"},
+        %{event: "number", value: "1"}
+        ], view, false)
       render_click(view, "backspace")
 
       assert render(view) =~ ~s(<div id="screen" class="mr-4">32</div>)
@@ -171,7 +175,7 @@ defmodule PhxCalculatorWeb.CalculatorLiveTest do
         %{event: "operator", value: "/"},
         %{event: "number", value: "1"}
         ], view, true)
-        render_click(view, "backspace")
+      render_click(view, "backspace")
 
       # nothing should happen
       assert render(view) =~ "1.0"

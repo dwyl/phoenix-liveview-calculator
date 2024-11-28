@@ -498,9 +498,137 @@ end
 ```
 
 ## Deletion 
+The deletion test suite is testing behavior involved in removing 
+data from the screen, either with the `backspace` or `clear` operator.
 
+### Backspace
+
+We test two behaviors (branches) of our `backspace` logic, what happens after 
+we click backspace when the calculator is in "display" mode and when it is not
+(i.e when it is in "number" or "operator" mode).
+
+Clearly, when not in "display" mode we'd like the the `backspace` event to 
+remove the last digit of whatever is currently on the screen. After using 
+our `apply_sequence()` with numbers `3`, `2`, `1` we can just check that the 
+`1` was removed with:
+
+```elixir
+render_click(view, "backspace")
+
+assert render(view) =~ ~s(<div id="screen" class="mr-4">32</div>)
+```
+
+And then for "display" mode the backspace event shouldn't do anything,
+so we just assert that the result of the calculation is still present
+after the `apply_sequence` followed by the `equals` event:
+
+```elixir
+render_click(view, "backspace")
+
+# nothing should happen
+assert render(view) =~ "1.0"
+```
+
+### Clear
+
+To test the `clear` event, all we need to do is trigger a `number` event
+followed by the `clear` event and then assert whether the screen is empty:
+
+```elixir
+render_click(view, "number", number: "1")
+render_click(view, "clear")
+
+# screen should be empty
+assert render(view) =~ ~s(<div id="screen" class="mr-4"></div>)
+```
 
 ## Rendering logic  
+
+This test suite is for testing the behavior ensuring legal calculations
+are being typed (e.g stopping a calculation like `1+-+=`). We'll quickly
+examine each test. 
+
+```elixir
+test "number after equals", %{conn: conn} do
+  {:ok, view, _html} = live(conn, "/")
+
+  apply_sequence([
+    %{event: "number", value: "1"},
+    %{event: "operator", value: "/"},
+    %{event: "number", value: "1"}
+    ], view, true)
+    render_click(view, "number", %{number: "2"})
+
+  assert render(view) =~ ~s(<div id="screen" class="mr-4">2</div>)
+end
+```
+Here we are checking that when entering a number after the calculator 
+is displaying a result a new calculation (`calc` string) is started. 
+So when we use `render_click(view, "number", %{number: "2"})` after 
+calculating the sequence the screen should only contain the `2`. 
+
+Next we test the behavior of two operators being clicked in a row:
+
+```elixir
+test "operator after operator", %{conn: conn} do
+  {:ok, view, _html} = live(conn, "/")
+
+  apply_sequence([
+    %{event: "number", value: "1"},
+    %{event: "operator", value: "+"},
+    %{event: "operator", value: "-"}
+    ], view, false)
+
+  # new operator replaces old operator
+  assert render(view) =~ "1-"
+end
+```
+
+As we have seen, in this design the desired action is to replace the
+first operator with the second, so we simply assert that all that is 
+being displayed is `1-` after the sequence `1`, `+`, `-`. 
+
+The last two tests are examining the behavior of an operator _followed_
+by an equals sign (e.g. `1+=`) and the operator _following_ a result 
+(e.g. `1+1=+1). 
+
+In each case nothing should happen:
+
+```elixir
+test "operator with equals", %{conn: conn} do
+  {:ok, view, _html} = live(conn, "/")
+
+  apply_sequence([
+    %{event: "number", value: "1"},
+    %{event: "operator", value: "/"},
+    %{event: "number", value: "1"}
+    ], view, true)
+    render_click(view, "operator", operator: "+")
+
+  # nothing should happen
+  assert render(view) =~ "1.0"
+end
+```
+So we assert that the result is still being displayed after inputting 
+an operator, and..
+
+```elixir
+test "equals after operator", %{conn: conn} do
+  {:ok, view, _html} = live(conn, "/")
+
+  apply_sequence([
+    %{event: "number", value: "1"},
+    %{event: "operator", value: "+"}
+    ], view, true)
+
+  # nothing should happen
+  assert render(view) =~ "1+"
+end
+```
+
+We check that the `equals` event (which we triggered by passing 
+`true` to the helper function) does nothing.
+
 
 ## Brackets
 
