@@ -1,16 +1,16 @@
-# fly.toml app configuration file generated for phx-calculator on 2024-11-26T16:21:24Z
+# fly.toml app configuration file generated for phoenix-liveview-calculator on 2024-11-28T19:12:57Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'phx-calculator'
-primary_region = 'arn'
+app = 'phoenix-liveview-calculator'
+primary_region = 'lhr'
 kill_signal = 'SIGTERM'
 
 [build]
 
 [env]
-  PHX_HOST = 'phx-calculator.fly.dev'
+  PHX_HOST = 'phoenix-liveview-calculator.fly.dev'
   PORT = '8080'
 
 [http_service]
@@ -27,6 +27,6 @@ kill_signal = 'SIGTERM'
     soft_limit = 1000
 
 [[vm]]
-  memory = '1gb'
+  memory = '512mb'
   cpu_kind = 'shared'
   cpus = 1
