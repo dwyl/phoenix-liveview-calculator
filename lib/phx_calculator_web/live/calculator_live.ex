@@ -68,7 +68,7 @@ alias PhxCalculatorWeb.CoreComponents
         socket = assign(socket, calc: result, mode: "display")
         {:noreply, socket}
 
-      {:error, err} ->
+      {:error, _err} ->
         socket = assign(socket, calc: "ERROR", mode: "display")
         {:noreply, socket}
     end

@@ -23,95 +23,51 @@ defmodule PhxCalculatorWeb.CoreComponents do
   """
   def calculator(assigns) do
     ~H"""
-      <div class="bg-gray-900 flex-1 h-screen flex flex-col lg:flex-row justify-between">
-
-        <!-- Calculator -->
-        <div class="bg-gray-900 flex-1 h-full flex flex-col justify-between m-4">
-
-          <!-- Screen -->
-          <div class="bg-gray-800 rounded-lg m-4 h-32 flex items-end justify-end
-          text-white text-6xl font-mono">
-            <div id="screen" class="mr-4"><%= render_slot(@inner_block) %></div>
-          </div>
-
-          <div class="grid grid-cols-4 gap-1 m-2 flex-grow">
-            <button class="bg-gray-700 text-blue-400 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="number" phx-value-number="(">(</button>
-
-
-            <button class="bg-gray-700 text-blue-400 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="number" phx-value-number=")">)</button>
-
-            <button class="bg-gray-700 text-blue-400 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="backspace">&larr;</button>
-
-            <button class="bg-gray-700 text-blue-400 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="clear">C</button>
-
-
-            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="number" phx-value-number="1">1</button>
-
-            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="number" phx-value-number="2">2</button>
-
-            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="number" phx-value-number="3">3</button>
-
-            <button class="bg-gray-700 text-blue-400 font-mono text-3xl
-            rounded-lg" phx-click="operator" phx-value-operator="+">+</button>
-
-
-            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="number" phx-value-number="4">4</button>
-
-            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="number" phx-value-number="5">5</button>
-
-            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="number" phx-value-number="6">6</button>
-
-            <button class="bg-gray-700 text-blue-400 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="operator" phx-value-operator="-">-</button>
-
-
-            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="number" phx-value-number="7">7</button>
-
-            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="number" phx-value-number="8">8</button>
-
-            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="number" phx-value-number="9">9</button>
-
-            <button class="bg-gray-700 text-blue-400 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="operator" phx-value-operator="*">x</button>
-
-
-            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="number" phx-value-number=".">.</button>
-
-            <button class="bg-gray-700 text-purple-800 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="number" phx-value-number="0">0</button>
-
-            <button class="bg-purple-900 text-black min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="equals">=</button>
-
-            <button class="bg-gray-700 text-blue-400 min-h-[4rem] font-mono text-3xl
-            rounded-lg" phx-click="operator" phx-value-operator="/">&divide</button>
-
-          </div>
+     <div class="flex min-h-screen flex-col bg-gray-900 lg:flex-row">
+      <!-- Calculator -->
+      <div class="flex min-h-screen flex-1 flex-col justify-between bg-gray-900 p-6">
+        <!-- Screen -->
+        <div class="mb-4 flex h-32 items-end justify-end rounded-lg bg-gray-800 font-mono text-6xl text-white">
+          <div id="screen" class="mr-4"><%= render_slot(@inner_block) %></div>
         </div>
 
-        <!-- History -->
-        <div class="bg-gray-600 flex-1 h-full p-4 rounded-lg m-4">
-          <div class="bg-gray-800 rounded-lg m-4 h-32 flex items-end justify-end
-          text-white text-6xl font-mono">
-            <div id="screen" class="mr-4">History</div>
-          </div>
+        <!-- Buttons -->
+        <div class="grid flex-grow grid-cols-4 gap-1">
+          <button class="button-grey-blue" phx-click="number" phx-value-number="(">(</button>
+          <button class="button-grey-blue" phx-click="number" phx-value-number=")">)</button>
+          <button class="button-grey-blue" phx-click="backspace">&larr;</button>
+          <button class="button-grey-blue" phx-click="clear">C</button>
 
+          <button class="button-grey-purple" phx-click="number" phx-value-number="1">1</button>
+          <button class="button-grey-purple" phx-click="number" phx-value-number="2">2</button>
+          <button class="button-grey-purple" phx-click="number" phx-value-number="3">3</button>
+          <button class="button-grey-blue" phx-click="operator" phx-value-operator="+">+</button>
+
+          <button class="button-grey-purple" phx-click="number" phx-value-number="4">4</button>
+          <button class="button-grey-purple" phx-click="number" phx-value-number="5">5</button>
+          <button class="button-grey-purple" phx-click="number" phx-value-number="6">6</button>
+          <button class="button-grey-blue" phx-click="operator" phx-value-operator="-">-</button>
+
+          <button class="button-grey-purple" phx-click="number" phx-value-number="7">7</button>
+          <button class="button-grey-purple" phx-click="number" phx-value-number="8">8</button>
+          <button class="button-grey-purple" phx-click="number" phx-value-number="9">9</button>
+          <button class="button-grey-blue" phx-click="operator" phx-value-operator="*">x</button>
+
+          <button class="button-grey-purple" phx-click="number" phx-value-number=".">.</button>
+          <button class="button-grey-purple" phx-click="number" phx-value-number="0">0</button>
+          <button class="min-h-[4rem] rounded-lg bg-purple-900 font-mono
+          text-3xl text-black hover:bg-purple-800" phx-click="equals">=</button>
+          <button class="button-grey-blue" phx-click="operator" phx-value-operator="/">&divide</button>
         </div>
       </div>
+      <!-- History -->
+      <div class="flex min-h-screen flex-1 flex-col bg-gray-600 p-4">
+        <div class="mb-4 flex h-32 items-end justify-end rounded-lg bg-gray-800 font-mono text-6xl text-white">
+          <div id="screen" class="mr-4">History</div>
+        </div>
+        <!-- Additional History content -->
+      </div>
+    </div>
     """
   end
   @doc """

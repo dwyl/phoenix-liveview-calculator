@@ -629,7 +629,42 @@ end
 We check that the `equals` event (which we triggered by passing 
 `true` to the helper function) does nothing.
 
-
 ## Brackets
+
+Lastly we test the `bracket` event logic. Namely, we are testing that 
+when used correctly they work as intended, and when used incorrectly 
+the screen displays the "ERROR" message: 
+
+```elixir
+ describe "brackets" do
+  test "valid brackets", %{conn: conn} do
+    {:ok, view, _html} = live(conn, "/")
+
+    apply_sequence([
+    %{event: "number", value: "6"},
+    %{event: "operator", value: "/"},
+    %{event: "number", value: "("},
+    %{event: "number", value: "3"},
+    %{event: "operator", value: "-"},
+    %{event: "number", value: "2"},
+    %{event: "number", value: ")"}
+    ], view, true)
+
+    assert render(view) =~ "6.0"
+  end
+  
+  test "invalid brackets", %{conn: conn} do
+    {:ok, view, _html} = live(conn, "/")
+
+    apply_sequence([
+    %{event: "number", value: "("},
+    %{event: "number", value: "("},
+    %{event: "number", value: ")"}
+    ], view, true)
+
+    assert render(view) =~ "ERROR"
+  end
+end
+```
 
 
