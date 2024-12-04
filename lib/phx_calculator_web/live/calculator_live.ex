@@ -4,11 +4,17 @@ alias PhxCalculatorWeb.CoreComponents
   import CoreComponents
 
   def mount(_params, _session, socket) do
+
+    # dbg(socket)
     socket =
       assign(socket, calc: "", mode: "")
 
-    socket = stream(socket, :calcs, [%{id: 0, str: "No history"}])
-      |> dbg()
+    socket = stream(socket, :calcs, [%{id: 1, title: "No history"}])
+
+    # socket =
+    #   stream(socket, :calcs, [
+    #     %{id: 1, title: "apple"}
+    #   ], at: 0)
 
     {:ok, socket}
   end
@@ -92,8 +98,28 @@ alias PhxCalculatorWeb.CoreComponents
   end
 
   def render(assigns) do
+
     ~H"""
+    <div class="flex min-h-screen flex-col bg-gray-900 lg:flex-row">
       <.calculator><%= @calc %></.calculator>
+
+
+      <!-- History -->
+        <div class="flex min-h-screen flex-1 flex-col bg-gray-600 p-4">
+          <div class="mb-4 flex h-32 items-end justify-end rounded-lg
+          bg-gray-800 font-mono text-xl text-white">
+            <div class="mr-4">
+
+            <ul id="calcs" phx-update="stream">
+              <li :for={{dom_id, calc} <- @streams.calcs} id={dom_id}>
+                <%= calc.title %>
+              </li>
+            </ul>
+            </div>
+          </div>
+          <!-- Additional History content -->
+        </div>
+      </div>
     """
   end
 end

@@ -22,8 +22,8 @@ defmodule PhxCalculatorWeb.CoreComponents do
   Renders the calculator
   """
   def calculator(assigns) do
+
     ~H"""
-     <div class="flex min-h-screen flex-col bg-gray-900 lg:flex-row">
       <!-- Calculator -->
       <div class="flex min-h-screen flex-1 flex-col justify-between bg-gray-900 p-6">
         <!-- Screen -->
@@ -101,25 +101,9 @@ defmodule PhxCalculatorWeb.CoreComponents do
         </div>
       </div>
 
-      <!-- History -->
-      <div class="flex min-h-screen flex-1 flex-col bg-gray-600 p-4">
-        <div class="mb-4 flex h-32 items-end justify-end rounded-lg
-        bg-gray-800 font-mono text-6xl text-white">
-          <div class="mr-4">
-
-            <ul id="calcs-stream" phx-update="stream">
-              <li :for={{dom_id, calculation} <- @streams.calcs} id={dom_id}>
-                <%= calculation.str %>
-              </li>
-            </ul>
-
-          </div>
-        </div>
-        <!-- Additional History content -->
-      </div>
-    </div>
     """
   end
+  @spec modal(map()) :: Phoenix.LiveView.Rendered.t()
   @doc """
   Renders a modal.
 
