@@ -4,7 +4,12 @@ alias PhxCalculatorWeb.CoreComponents
   import CoreComponents
 
   def mount(_params, _session, socket) do
-    socket = assign(socket, calc: "", mode: "", history: "")
+    socket =
+      assign(socket, calc: "", mode: "")
+
+    socket = stream(socket, :calcs, [%{id: 0, str: "No history"}])
+      |> dbg()
+
     {:ok, socket}
   end
 
@@ -56,7 +61,7 @@ alias PhxCalculatorWeb.CoreComponents
     case socket.assigns.mode do
       "number" ->
         calculate(socket)
-
+        update_history(socket)
       _ ->
         {:noreply, socket}
     end
@@ -72,6 +77,12 @@ alias PhxCalculatorWeb.CoreComponents
         socket = assign(socket, calc: "ERROR", mode: "display")
         {:noreply, socket}
     end
+  end
+
+  defp update_history(socket) do
+    string = socket.assigns.calc
+    stream_insert(socket, :calcs, %{id: 1, string: string})
+    {:ok, socket}
   end
 
   defp backspace(socket, operator \\ "") do

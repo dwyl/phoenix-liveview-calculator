@@ -27,43 +27,93 @@ defmodule PhxCalculatorWeb.CoreComponents do
       <!-- Calculator -->
       <div class="flex min-h-screen flex-1 flex-col justify-between bg-gray-900 p-6">
         <!-- Screen -->
-        <div class="mb-4 flex h-32 items-end justify-end rounded-lg bg-gray-800 font-mono text-6xl text-white">
+        <div class="mb-4 flex h-32 items-end justify-end rounded-lg bg-gray-800
+        font-mono text-6xl text-white">
           <div id="screen" class="mr-4"><%= render_slot(@inner_block) %></div>
         </div>
 
         <!-- Buttons -->
         <div class="grid flex-grow grid-cols-4 gap-1">
-          <button class="button-grey-blue" phx-click="number" phx-value-number="(">(</button>
-          <button class="button-grey-blue" phx-click="number" phx-value-number=")">)</button>
-          <button class="button-grey-blue" phx-click="backspace">&larr;</button>
+          <%!-- Row 1 --%>
+          <button class="button-grey-blue" phx-click="number"
+           phx-value-number="(">(</button>
+
+          <button class="button-grey-blue" phx-click="number"
+           phx-value-number=")">)</button>
+
+          <button class="button-grey-blue" phx-click="backspace">
+          &larr;</button>
+
           <button class="button-grey-blue" phx-click="clear">C</button>
 
-          <button class="button-grey-purple" phx-click="number" phx-value-number="1">1</button>
-          <button class="button-grey-purple" phx-click="number" phx-value-number="2">2</button>
-          <button class="button-grey-purple" phx-click="number" phx-value-number="3">3</button>
-          <button class="button-grey-blue" phx-click="operator" phx-value-operator="+">+</button>
+          <%!-- Row 2 --%>
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="1">1</button>
 
-          <button class="button-grey-purple" phx-click="number" phx-value-number="4">4</button>
-          <button class="button-grey-purple" phx-click="number" phx-value-number="5">5</button>
-          <button class="button-grey-purple" phx-click="number" phx-value-number="6">6</button>
-          <button class="button-grey-blue" phx-click="operator" phx-value-operator="-">-</button>
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="2">2</button>
 
-          <button class="button-grey-purple" phx-click="number" phx-value-number="7">7</button>
-          <button class="button-grey-purple" phx-click="number" phx-value-number="8">8</button>
-          <button class="button-grey-purple" phx-click="number" phx-value-number="9">9</button>
-          <button class="button-grey-blue" phx-click="operator" phx-value-operator="*">x</button>
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="3">3</button>
 
-          <button class="button-grey-purple" phx-click="number" phx-value-number=".">.</button>
-          <button class="button-grey-purple" phx-click="number" phx-value-number="0">0</button>
+          <button class="button-grey-blue" phx-click="operator"
+          phx-value-operator="+">+</button>
+
+          <%!-- Row 3 --%>
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="4">4</button>
+
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="5">5</button>
+
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="6">6</button>
+
+          <button class="button-grey-blue" phx-click="operator"
+          phx-value-operator="-">-</button>
+
+          <%!-- Row 4 --%>
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="7">7</button>
+
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="8">8</button>
+
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="9">9</button>
+
+          <button class="button-grey-blue" phx-click="operator"
+          phx-value-operator="*">x</button>
+
+          <%!-- Row 5 --%>
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number=".">.</button>
+
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="0">0</button>
+
           <button class="min-h-[4rem] rounded-lg bg-purple-900 font-mono
           text-3xl text-black hover:bg-purple-800" phx-click="equals">=</button>
-          <button class="button-grey-blue" phx-click="operator" phx-value-operator="/">&divide</button>
+
+          <button class="button-grey-blue" phx-click="operator"
+          phx-value-operator="/">&divide</button>
+
         </div>
       </div>
+
       <!-- History -->
       <div class="flex min-h-screen flex-1 flex-col bg-gray-600 p-4">
-        <div class="mb-4 flex h-32 items-end justify-end rounded-lg bg-gray-800 font-mono text-6xl text-white">
-          <div id="screen" class="mr-4">History</div>
+        <div class="mb-4 flex h-32 items-end justify-end rounded-lg
+        bg-gray-800 font-mono text-6xl text-white">
+          <div class="mr-4">
+
+            <ul id="calcs-stream" phx-update="stream">
+              <li :for={{dom_id, calculation} <- @streams.calcs} id={dom_id}>
+                <%= calculation.str %>
+              </li>
+            </ul>
+
+          </div>
         </div>
         <!-- Additional History content -->
       </div>
@@ -129,6 +179,7 @@ defmodule PhxCalculatorWeb.CoreComponents do
                   <.icon name="hero-x-mark-solid" class="h-5 w-5" />
                 </button>
 
+
               </div>
               <div id={"#{@id}-content"}>
                 <%= render_slot(@inner_block) %>
@@ -182,6 +233,7 @@ defmodule PhxCalculatorWeb.CoreComponents do
       <button type="button" class="group absolute top-1 right-1 p-2" aria-label="close">
         <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
       </button>
+
 
     </div>
     """
@@ -292,6 +344,7 @@ defmodule PhxCalculatorWeb.CoreComponents do
     >
       <%= render_slot(@inner_block) %>
     </button>
+
 
     """
   end

@@ -17,6 +17,57 @@ I'd strongly suggest reviewing the basics with
 [dwyl-learn-phoenix](https://github.com/dwyl/learn-phoenix)
 first, before coming back and seeing these technologies in action!
 
+# Layout
+
+## Core Component 
+
+We keep the HEEx and the Tailwind (besides the button styling, see next) in 
+the auto-generated `lib\phx_calculator_web\components\core_components.ex` file.
+
+This keeps our LiveView file `lib\phx_calculator_web\live\calculator_live.ex` 
+extremely slim by having a tiny `render/1` function:
+
+```elixir
+def render(assigns) do
+  ~H"""
+    <.calculator><%= @calc %></.calculator>
+  """
+end
+```
+
+## Tailwind `@layer` directive
+
+In `assets\css\app.css` we keep the styling for the calculator buttons using 
+the 
+[`@layer` directive](https://tailwindcss.com/docs/functions-and-directives#layer)
+like so:
+
+```css
+@layer components {
+  .button-grey-blue {
+    @apply min-h-[4rem] rounded-lg bg-gray-700 font-mono text-3xl hover:bg-gray-600 text-blue-400
+  }
+  .button-grey-purple {
+    @apply min-h-[4rem] rounded-lg bg-gray-700 font-mono text-3xl hover:bg-gray-600 text-purple-800
+  }
+} 
+```
+
+This prevents the calculator component from having bloated classes and greatly
+reduces repeated code:
+
+```html
+<button class="button-grey-blue" phx-click="clear">C</button>
+
+<%!-- Row 2 --%>
+<button class="button-grey-purple" phx-click="number"
+  phx-value-number="1">1</button>
+
+<button class="button-grey-purple" phx-click="number"
+  phx-value-number="2">2</button>
+```
+
+
 # Calculator Logic
 The calculation logic implementation was made **incredibly** simple thanks to 
 the elixir package [Abacus](https://github.com/narrowtux/abacus).
@@ -76,8 +127,8 @@ on every button which triggers the corresponding event, and if a value is
 needed then the corresponding `phx-value`:
 
 ```html
-<button class="bg-gray-700 text-purple-800 h-16 font-mono text-3xl
-rounded-lg" phx-click="number" phx-value-number="1">1</button>
+<button class="button-grey-purple" phx-click="number"
+phx-value-number="1">1</button>
 ```
 
 **Note:** not every button needs to pass a value to the handler function, 
@@ -85,8 +136,7 @@ for example we can handle a `"clear"` or `"backspace"` event without any
 data being passed
 
 ```html
-<button class="bg-gray-700 text-blue-400 h-16 font-mono text-3xl
-rounded-lg" phx-click="clear">C</button>
+<button class="button-grey-blue" phx-click="clear">C</button>
 ```
 
 ### Mount
