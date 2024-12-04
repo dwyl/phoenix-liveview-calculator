@@ -67,7 +67,7 @@ alias PhxCalculatorWeb.CoreComponents
     case socket.assigns.mode do
       "number" ->
         calculate(socket)
-        update_history(socket)
+        # update_history(socket)
       _ ->
         {:noreply, socket}
     end
