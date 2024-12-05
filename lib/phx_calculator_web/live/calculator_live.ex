@@ -98,28 +98,102 @@ alias PhxCalculatorWeb.CoreComponents
   end
 
   def render(assigns) do
-
     ~H"""
     <div class="flex min-h-screen flex-col bg-gray-900 lg:flex-row">
-      <.calculator><%= @calc %></.calculator>
+       <!-- Calculator -->
+       <div class="flex min-h-screen flex-1 flex-col justify-between bg-gray-900 p-6">
+        <!-- Screen -->
+        <div class="mb-4 flex h-32 items-end justify-end rounded-lg bg-gray-800
+        font-mono text-6xl text-white">
+          <div id="screen" class="mr-4"><%= @calc %></div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="grid flex-grow grid-cols-4 gap-1">
+          <%!-- Row 1 --%>
+          <button class="button-grey-blue" phx-click="number"
+           phx-value-number="(">(</button>
+
+          <button class="button-grey-blue" phx-click="number"
+           phx-value-number=")">)</button>
+
+          <button class="button-grey-blue" phx-click="backspace">
+          &larr;</button>
+
+          <button class="button-grey-blue" phx-click="clear">C</button>
+
+          <%!-- Row 2 --%>
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="1">1</button>
+
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="2">2</button>
+
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="3">3</button>
+
+          <button class="button-grey-blue" phx-click="operator"
+          phx-value-operator="+">+</button>
+
+          <%!-- Row 3 --%>
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="4">4</button>
+
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="5">5</button>
+
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="6">6</button>
+
+          <button class="button-grey-blue" phx-click="operator"
+          phx-value-operator="-">-</button>
+
+          <%!-- Row 4 --%>
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="7">7</button>
+
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="8">8</button>
+
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="9">9</button>
+
+          <button class="button-grey-blue" phx-click="operator"
+          phx-value-operator="*">x</button>
+
+          <%!-- Row 5 --%>
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number=".">.</button>
+
+          <button class="button-grey-purple" phx-click="number"
+           phx-value-number="0">0</button>
+
+          <button class="min-h-[4rem] rounded-lg bg-purple-900 font-mono
+          text-3xl text-black hover:bg-purple-800" phx-click="equals">=</button>
+
+          <button class="button-grey-blue" phx-click="operator"
+          phx-value-operator="/">&divide</button>
+
+        </div>
+      </div>
+
 
 
       <!-- History -->
-        <div class="flex min-h-screen flex-1 flex-col bg-gray-600 p-4">
-          <div class="mb-4 flex h-32 items-end justify-end rounded-lg
-          bg-gray-800 font-mono text-xl text-white">
-            <div class="mr-4">
-
+      <div class="flex min-h-screen flex-1 flex-col bg-gray-600 p-4">
+        <div class="mb-4 flex h-32 items-end justify-end rounded-lg
+        bg-gray-800 font-mono text-xl text-white">
+          <div class="mr-4">
             <ul id="calcs" phx-update="stream">
               <li :for={{dom_id, calc} <- @streams.calcs} id={dom_id}>
                 <%= calc.title %>
               </li>
             </ul>
-            </div>
           </div>
-          <!-- Additional History content -->
         </div>
+        <!-- Additional History content -->
       </div>
+    </div>
     """
   end
 end
