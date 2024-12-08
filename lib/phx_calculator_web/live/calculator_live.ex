@@ -5,17 +5,10 @@ alias PhxCalculatorWeb.CoreComponents
 
   def mount(_params, _session, socket) do
 
-    # dbg(socket)
     socket =
-      assign(socket, calc: "", mode: "")
+      assign(socket, calc: "", mode: "", calc_id: 0)
 
     socket = stream(socket, :calcs, [%{id: 1, title: "No history"}])
-
-    # socket =
-    #   stream(socket, :calcs, [
-    #     %{id: 1, title: "apple"}
-    #   ], at: 0)
-
     {:ok, socket}
   end
 
@@ -67,7 +60,6 @@ alias PhxCalculatorWeb.CoreComponents
     case socket.assigns.mode do
       "number" ->
         calculate(socket)
-        # update_history(socket)
       _ ->
         {:noreply, socket}
     end
@@ -76,19 +68,19 @@ alias PhxCalculatorWeb.CoreComponents
   defp calculate(socket) do
     case Abacus.eval(socket.assigns.calc) do
       {:ok, result} ->
-        socket = assign(socket, calc: result, mode: "display")
-        {:noreply, socket}
+        # Update history
+        calc = socket.assigns.calc <> "=" <> "#{result}"
+        calc_id = socket.assigns.calc_id + 1
+
+        socket = assign(socket, calc: result, mode: "display", calc_id: calc_id)
+        {:noreply,
+        stream_insert(socket, :calcs,  %{id: calc_id, title: calc})}
+
 
       {:error, _err} ->
         socket = assign(socket, calc: "ERROR", mode: "display")
         {:noreply, socket}
     end
-  end
-
-  defp update_history(socket) do
-    string = socket.assigns.calc
-    stream_insert(socket, :calcs, %{id: 1, string: string})
-    {:ok, socket}
   end
 
   defp backspace(socket, operator \\ "") do
@@ -184,14 +176,15 @@ alias PhxCalculatorWeb.CoreComponents
         <div class="mb-4 flex h-32 items-end justify-end rounded-lg
         bg-gray-800 font-mono text-xl text-white">
           <div class="mr-4">
-            <ul id="calcs" phx-update="stream">
-              <li :for={{dom_id, calc} <- @streams.calcs} id={dom_id}>
-                <%= calc.title %>
-              </li>
-            </ul>
+            History
           </div>
         </div>
         <!-- Additional History content -->
+        <ul id="calcs" phx-update="stream">
+          <li :for={{dom_id, calc} <- @streams.calcs} id={dom_id}>
+            <%= calc.title %>
+          </li>
+        </ul>
       </div>
     </div>
     """
