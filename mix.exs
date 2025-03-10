@@ -57,7 +57,7 @@ defmodule PhxCalculator.MixProject do
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
-      {:dns_cluster, "~> 0.1.1"},
+      {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
       {:abacus, "~> 2.1.0"},
       {:excoveralls, "~> 0.18.3", only: [:test, :dev]} # tracking test coverage
